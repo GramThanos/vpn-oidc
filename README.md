@@ -191,6 +191,8 @@ ___
 
 ### License
 
+This project is under GNU General Public License v3.0.
+
 Copyright (c) 2021 Grammatopoulos Athanasios-Vasileios
 
 This project was created while conducting research on FIDO2/WebAuthn at University of Piraeus.
