@@ -1,5 +1,8 @@
 # VPN-OIDC
 ## VPN Authentication through Open ID Connect using OpenVPN
+
+![demo](preview.gif)
+
 This project is a PoC implementation of VPN authentication through online web-based Open ID Connect authentication.
 The VPN server plays the role of a web-application and the custom VPN Client acts as a bridge between the web authentication and the VPN server.
 
