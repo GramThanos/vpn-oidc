@@ -1,0 +1,27 @@
+{
+	"name": "vpn-oidc",
+	"version": "1.0.0",
+	"description": "VPN Authentication through Open ID Connect using OpenVPN",
+	"main": "index.js",
+	"scripts": {
+		"start": "electron .",
+		"pack:win64": "electron-packager . --overwrite --out=release-builds --platform=win32 --arch=x64 --icon=icons/icon.ico",
+		"pack:win32": "electron-packager . --overwrite --out=release-builds --platform=win32 --arch=ia32 --icon=icons/icon.ico",
+		"pack": "npm run pack:win64"
+	},
+	"keywords": [
+		"FIDO2",
+		"WebAuthn",
+		"VPN",
+		"Passwordless"
+	],
+	"author": "Athanasios Vasileios Grammatopoulos",
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"electron": "^15.1.1",
+		"electron-packager": "^15.4.0"
+	},
+	"dependencies": {
+		"axios": "^0.21.1"
+	}
+}

@@ -1,0 +1,36 @@
+
+h1 {
+	text-align: center;
+	margin: 20px auto;
+}
+
+#mainTabContent {
+	padding: 15px;
+	border-right: 1px solid #dee2e6;
+	border-left: 1px solid #dee2e6;
+	border-bottom: 1px solid #dee2e6;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	margin-bottom: 10px;
+}
+
+#connected {
+	display: none;
+}
+
+#disconnected .btn {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+#log-textarea {
+	width: 100%;
+	height: 250px;
+	border: 1px solid #dee2e6;
+	font-size: 10px;
+	font-family: monospace;
+}
+
+#version {
+	color: #ccc;
+}

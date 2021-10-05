@@ -1,0 +1,31 @@
+{
+	"authservices" : [
+		{
+			"id" : "google-oidc",
+			"name" : "Login with Google",
+			"description" : "Authenticate using your Google account",
+			"wellknown" : "https://accounts.google.com/.well-known/openid-configuration",
+			"clientid" : "example-client-id-needs-to-be-changed",
+			"redirect" : "https://vpnapp.electron.gramthanos.com/oidc",
+			"profile" : "server-bannana-client-profile-oidc.ovpn"
+		},
+		{
+			"id" : "facebook-oidc",
+			"name" : "Login with Facebook",
+			"description" : "Authenticate using your Facebook account",
+			"wellknown" : "https://www.facebook.com/.well-known/openid-configuration",
+			"clientid" : "example-client-id-needs-to-be-changed",
+			"redirect" : "https://vpnapp.electron.gramthanos.com/oidc",
+			"profile" : "server-bannana-client-profile-oidc.ovpn"
+		},
+		{
+			"id" : "keycloak-oidc",
+			"name" : "Login with Keycloak",
+			"description" : "Authenticate using your Keycloak account",
+			"wellknown" : "https://keycloak.gramthanos.com/auth/realms/DEMOAPP/.well-known/openid-configuration",
+			"clientid" : "vpn-app-auth",
+			"redirect" : "https://vpnapp.electron.gramthanos.com/oidc",
+			"profile" : "server-apple-client-profile-oidc.ovpn"
+		}
+	]
+}
