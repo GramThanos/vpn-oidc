@@ -1,9 +1,9 @@
-# VPN-OIDC
-## VPN Authentication through Open ID Connect using OpenVPN
+# VPN Authentication through Open ID Connect using OpenVPN
+
+This project is a PoC implementation of VPN authentication through online web-based Open ID Connect authentication.
 
 ![demo](preview.gif)
 
-This project is a PoC implementation of VPN authentication through online web-based Open ID Connect authentication.
 The VPN server plays the role of a web-application and the custom VPN Client acts as a bridge between the web authentication and the VPN server.
 
 The authentication process follows the following steps:
@@ -13,6 +13,8 @@ The authentication process follows the following steps:
 - The VPN server validates the authentication token with the Open ID Connect service, retrieves user's identity information
 
 This implementation allows the use of single- or multi-factor secure and strong authentication for VPN services through state of the art web-based authentication method (like FIDO2/WebAuthn) as long as the service supports Open ID Connect (OIDC).
+
+___
 
 ## Prepare VPN Server
 
@@ -155,6 +157,7 @@ As a profile ovpn file you can use the client profile we prepared during the ser
 
 The client implementation need the [OpenVPN Community Client](https://openvpn.net/community-downloads/) install on your system, located either at `C:/Program Files/OpenVPN/bin/openvpn.exe` or `C:/Program Files (x86)/OpenVPN/bin/openvpn.exe`.
 
+___
 
 ## Development
 
@@ -183,3 +186,14 @@ Pack application for x64
 ```console
 npm run pack:win64
 ```
+
+___
+
+### License
+
+Copyright (c) 2021 Grammatopoulos Athanasios-Vasileios
+This project was created while conducting research on FIDO2/WebAuthn at University of Piraeus.
+
+___
+
+[![GramThanos](https://avatars2.githubusercontent.com/u/14858959?s=42&v=4)](https://github.com/GramThanos)
