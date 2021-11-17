@@ -1,4 +1,4 @@
-# VPN Authentication through Open ID Connect using OpenVPN
+#VPN Authentication through Open ID Connect using OpenVPN
 
 This project is a PoC implementation of VPN authentication through online web-based Open ID Connect authentication.
 
@@ -150,19 +150,19 @@ Open and edit `config.json` inside the client files:
 }
 ```
 Add as many services as you like.
-You should register `https://vpnapp.electron.gramthanos.com/oidc` as a vali redirect URL to your Open ID Connect service.
+You should register `https://vpnapp.electron.gramthanos.com/oidc` as a valid redirect URL to your Open ID Connect service provider.
 You can point each service to a different profile or to the same profile.
 You can add each profile's ovpn file inside the `profiles` folder.
 As a profile ovpn file you can use the client profile we prepared during the server setup.
 
-The client implementation need the [OpenVPN Community Client](https://openvpn.net/community-downloads/) install on your system, located either at `C:/Program Files/OpenVPN/bin/openvpn.exe` or `C:/Program Files (x86)/OpenVPN/bin/openvpn.exe`.
+The client implementation need the [OpenVPN Community Client](https://openvpn.net/community-downloads/) installed on your system, located either at `C:/Program Files/OpenVPN/bin/openvpn.exe` or `C:/Program Files (x86)/OpenVPN/bin/openvpn.exe`.
 
 ___
 
 ## Development
 
 ### Disable SSL Warnings 
-If you need to disable SSL certificate warnings and errors, uncomment the appropriate files at `client/index.js`, `client/app/preload.js` and `server/auth.py`.
+If you need to disable SSL certificate warnings and errors, uncomment the appropriate lines at `client/index.js`, `client/app/preload.js` and `server/auth.py`.
 
 ### Development
 Enter `client` folder.
