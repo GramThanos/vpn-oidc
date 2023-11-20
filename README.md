@@ -18,7 +18,7 @@ ___
 
 ## Prepare VPN Server
 
-Upgrade your system: 
+Upgrade your system:
 ```console
 sudo apt update && sudo apt upgrade -y
 ```
