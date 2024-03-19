@@ -4,8 +4,13 @@ const path = require('path');
 const crypto = require('crypto');
 const isDevelopment = false;
 const axios = isDevelopment ? 
-	require('axios').create({httpsAgent: new require('https').Agent({rejectUnauthorized: false}), adapter: require('axios/lib/adapters/http')}) :
-	require('axios').create({adapter: require('axios/lib/adapters/http')});
+	require('axios').create({
+		httpsAgent: new require('https').Agent({rejectUnauthorized: false}),
+		adapter: require('axios/lib/adapters/http')
+	}) :
+	require('axios').create({
+		adapter: require('axios/lib/adapters/http')
+	});
 const child_process = require('child_process');
 
 const $app = {
@@ -23,7 +28,10 @@ const $app = {
 			// Load config file
 			let tmp = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
 			// Validate config
-			if (!tmp.hasOwnProperty('authservices') || !(tmp.authservices instanceof Array)) {
+			if (
+				!tmp.hasOwnProperty('authservices') ||
+				!(tmp.authservices instanceof Array)
+			) {
 				throw('Invalid config.');
 			}
 			// Config loaded
@@ -65,14 +73,16 @@ const $app = {
 
 	// Disable all authentication services buttons
 	disableAuthServices : function() {
-		[...document.getElementById('connect-form').getElementsByTagName('input')].forEach(input => {
+		[...document.getElementById('connect-form')
+		.getElementsByTagName('input')].forEach(input => {
 			input.setAttribute('disabled', 'disabled');
 		});
 	},
 
 	// Enable all authentication services buttons
 	enableAuthServices : function() {
-		[...document.getElementById('connect-form').getElementsByTagName('input')].forEach(input => {
+		[...document.getElementById('connect-form')
+		.getElementsByTagName('input')].forEach(input => {
 			input.removeAttribute('disabled', 'disabled');
 		});
 	},
@@ -90,11 +100,15 @@ const $app = {
 	// Add authentication services buttons handlers
 	addAuthServicesEventListeners : function() {
 		// Handle form submit event
-		document.getElementById('connect-form').addEventListener('submit', (e) => {
+		document.getElementById('connect-form')
+		.addEventListener('submit', (e) => {
 			e.preventDefault();
 
-			// Get authentication service to use (detect which button was pressed)
-			const authservice = this.config.authservices[Math.round(parseInt(document.activeElement.dataset.authservice, 10)) - 1];
+			// Get authentication service to use
+			// (detect which button was pressed)
+			const authservice = this.config.authservices[Math.round(
+				parseInt(document.activeElement.dataset.authservice, 10)
+			) - 1];
 			if (!authservice) return false;
 
 			// Disable authentication services buttons
@@ -106,11 +120,17 @@ const $app = {
 				this.launchAuthService(authservice, endpoint)
 				.then((authentucationResponse) => {
 					// Generate username and password
-					let username = crypto.randomBytes(16).toString('base64') + '@' + authservice.id; // Random Username
-					let password = Buffer.from(JSON.stringify(authentucationResponse)).toString('base64'); // Save auth response json as password
+					let username = 
+						crypto.randomBytes(16).toString('base64') +
+						'@' + authservice.id; // Random Username
+					// Save auth response json as password
+					let password = Buffer.from(
+						JSON.stringify(authentucationResponse)
+					).toString('base64');
 
 					// Connect on VPN
-					this.vpnConnect(authservice, username, password).catch((error) => {
+					this.vpnConnect(authservice, username, password)
+					.catch((error) => {
 						this.enableAuthServices();
 					});
 				})
@@ -128,7 +148,8 @@ const $app = {
 		});
 
 		// Handle disconnect
-		document.getElementById('disconnect-form').addEventListener('submit', (e) => {
+		document.getElementById('disconnect-form')
+		.addEventListener('submit', (e) => {
 			if (!this.openvpnProcess) {
 				this.openvpnProcess.kill('SIGINT');
 			}
@@ -139,7 +160,8 @@ const $app = {
 	// Load authentication service endpoint
 	getAuthServiceEndpoint : function(authservice) {
 		// Load authentication service OIDC info
-		this.log('Loading "' + authservice.name + '" connection information...' );
+		this.log('Loading "' + 
+			authservice.name + '" connection information...' );
 		return new Promise((resolve, reject) => {
 			axios({
 				method: 'get',
@@ -148,15 +170,26 @@ const $app = {
 			})
 			.then((response) => {
 				// Check for errors
-				if (!response.data || !response.data.authorization_endpoint || !response.data.userinfo_endpoint) {
+				if (
+					!response.data ||
+					!response.data.authorization_endpoint ||
+					!response.data.userinfo_endpoint
+				) {
 					reject('Failed to recover OIDC endpoints');
 					return;
 				}
-				if (!response.data.response_types_supported || !response.data.response_types_supported.includes('code')) {
+				if (
+					!response.data.response_types_supported ||
+					!response.data.response_types_supported.includes('code')
+				) {
 					reject('OIDC configuration does not support code response type');
 					return;
 				}
-				if (!response.data.scopes_supported || !response.data.scopes_supported.includes('openid') || !response.data.scopes_supported.includes('email')) {
+				if (
+					!response.data.scopes_supported ||
+					!response.data.scopes_supported.includes('openid') ||
+					!response.data.scopes_supported.includes('email')
+				) {
 					reject('OIDC configuration does not support needed scopes');
 					return;
 				}
@@ -171,9 +204,12 @@ const $app = {
 
 
 	launchAuthService : function(authservice, endpoint) {
-		this.log('Starting authentication with "' + authservice.name + '"...' );
+		this.log('Starting authentication with "' +
+			authservice.name + '"...' );
 		return new Promise((resolve, reject) => {
-			let state = 'security_token' + ':' + crypto.randomBytes(64).toString('base64') + ':' + authservice.redirect;
+			let state = 'security_token' + ':' +
+				crypto.randomBytes(64).toString('base64') + ':' +
+				authservice.redirect;
 			let nonce = crypto.randomBytes(64).toString('base64');
 
 			// Prepare URL
@@ -216,7 +252,9 @@ const $app = {
 			const {session: {webRequest}} = win.webContents;
 
 			// Catch callback URL
-			webRequest.onBeforeRequest({urls: [authservice.redirect + '*']}, (details, callback) => {
+			webRequest.onBeforeRequest({
+				urls: [authservice.redirect + '*']
+			}, (details, callback) => {
 				let url = new URL(details.url);
 				// Validate response state
 				if (url.searchParams.get('state') !== state) {
@@ -259,7 +297,11 @@ const $app = {
 		if (this.openvpnPath) {
 			try {
 				// Try to load version
-				let version = child_process.execFileSync(path.basename(this.openvpnPath), ['--version'], {cwd: path.dirname(this.openvpnPath)}).toString().trim();
+				let version = child_process.execFileSync(
+					path.basename(this.openvpnPath),
+					['--version'],
+					{cwd: path.dirname(this.openvpnPath)}
+				).toString().trim();
 				version = version.match(/OpenVPN\s*(\d*\.*\d*\.*\d*\.*\d*)/i);
 				version = version[1] || 'Unknown';
 				this.versionsInfo.push('OpenVPN' + ' ' + version);
@@ -291,7 +333,8 @@ const $app = {
 				}
 				
 				//2021-09-12 21:18:53
-				line = line.replace(/^\s*\d\d\d\d-\d\d-\d\d\s*\d\d:\d\d:\d\d\s*/i, '');
+				line = line.replace(
+					/^\s*\d\d\d\d-\d\d-\d\d\s*\d\d:\d\d:\d\d\s*/i, '');
 				this.log('[OpenVPN] ' + line);
 			})
 			.catch((error) => {
@@ -324,7 +367,8 @@ const $app = {
 				cwd: path.dirname(this.openvpnPath)
 			});
 
-			// You can also use a variable to save the output for when the script closes later
+			// You can also use a variable
+			// to save the output for when the script closes later
 			child.on('error', (error) => {
 				console.log('OpenVPN Client Error', error.toString());
 			});
@@ -357,17 +401,24 @@ const $app = {
 
 	killOpenVPNClients : function() {
 		try {
-			child_process.execFileSync('taskkill.exe', ['/F', '/IM', 'openvpn.exe']);
+			child_process.execFileSync(
+				'taskkill.exe',
+				['/F', '/IM', 'openvpn.exe']
+			);
 		} catch (e) {}
 	},
 
 	// Load node info
 	versionsInfo : [],
 	loadVersionsNode : function() {
-		const capitalize = (word) => {return word[0].toUpperCase() + word.substring(1).toLowerCase();}
+		const capitalize = (word) => {
+			return word[0].toUpperCase() + word.substring(1).toLowerCase();
+		}
 		// List versions
 		for (let dependency of ['chrome', 'node', 'electron']) {
-			this.versionsInfo.push(capitalize(dependency) + ' ' + process.versions[dependency]);
+			this.versionsInfo.push(
+				capitalize(dependency) + ' ' + process.versions[dependency]
+			);
 		}
 	},
 
@@ -377,8 +428,12 @@ const $app = {
 		document.getElementById('version').textContent = '';
 		// List versions
 		for (let version of this.versionsInfo) {
-			document.getElementById('version').appendChild(document.createTextNode(version));
-			document.getElementById('version').appendChild(document.createElement('br'));
+			document.getElementById('version').appendChild(
+				document.createTextNode(version)
+			);
+			document.getElementById('version').appendChild(
+				document.createElement('br')
+			);
 		}
 	},
 
@@ -387,7 +442,9 @@ const $app = {
 		if (!this.logElement) {
 			this.logElement = document.getElementById('log-textarea');
 		}
-		this.logElement.value += (newline ? '\n' : '') + (date ? '[' + new Date().toISOString() + '] ' : '') + data;
+		this.logElement.value += (newline ? '\n' : '') +
+			(date ? '[' + new Date().toISOString() + '] ' : '') +
+			data;
 	}
 };
 
